@@ -40,9 +40,18 @@ async function getPageData(url) {
 
   await page.waitForSelector("._1n81at5", { waitUntil: "load", timeout: 0 });
   const name = await page.$eval("._1n81at5", (name) => name.textContent);
-  //await page.waitForSelector('._fardlj', { waitUntil: 'load', timeout: 0 });
-  //await page.waitForSelector('._1ne5r4rt', { waitUntil: 'load', timeout: 0 });
-  //const ratings = await page.$eval("._fardlj ._1ne5r4rt",ratings =>ratings.textContent);
+  try {
+    await page.waitForSelector("span._1ne5r4rt", {
+      waitUntil: "load",
+      timeout: 50000,
+    });
+  } catch (err) {
+    //console.log(err)
+  }
+  const ratings = await page.$eval(
+    "._fardlj ._1ne5r4rt",
+    (ratings) => ratings.textContent
+  );
   await page.waitForSelector("._1qf7wt4w", { waitUntil: "load", timeout: 0 });
   const no_of_ratings = await page.$eval(
     "._1qf7wt4w",
@@ -51,7 +60,7 @@ async function getPageData(url) {
 
   const obj = {
     title: name,
-    rating: 4,
+    rating: ratings,
     No_Of_ratting: no_of_ratings,
   };
   return obj;
@@ -101,7 +110,7 @@ function start(pagesToScrape) {
       }
 
       //console.log(scrapeData);
-      //console.log(dataObj)
+
       await browser.close();
     } catch (e) {
       return reject(e);

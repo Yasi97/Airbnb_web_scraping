@@ -7,4 +7,4 @@ const details = mongoose.Schema({
   No_Of_ratting: String,
 });
 
-module.exports = mongoose.model("Airbnb", details);
+module.exports = mongoose.model("Airbnbe", details);
