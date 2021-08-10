@@ -49,7 +49,7 @@ async function getPageData(url) {
     //console.log(err)
   }
   const ratings = await page.$eval(
-    "._fardlj ._1ne5r4rt",
+    "span._1ne5r4rt",
     (ratings) => ratings.textContent
   );
   await page.waitForSelector("._1qf7wt4w", { waitUntil: "load", timeout: 0 });
@@ -57,11 +57,12 @@ async function getPageData(url) {
     "._1qf7wt4w",
     (no_of_ratings) => no_of_ratings.textContent
   );
+  const res = no_of_ratings.replace(/\D/g, "");
 
   const obj = {
     title: name,
     rating: ratings,
-    No_Of_ratting: no_of_ratings,
+    No_Of_ratting: res,
   };
   return obj;
 }
